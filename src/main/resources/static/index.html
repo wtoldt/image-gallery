@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="../../favicon.ico">
+		
+		<title>Image Gallery</title>
+		
+		<!-- Bootstrap core CSS -->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+    
+	</head>
+	<body>  
+	<div class="container" id="container">     
+		<div class="row" style="height:98%">			
+			<div class="col-sm-12 text-center" style="height:100%">			
+				<div class="panel panel-default" style="height:100%">
+					<div class="panel-heading" style="height:93%">
+							<img id="image" class="img-responsive center-block" style="max-height:100%">
+					</div>
+					<div class="panel-body">
+							<button type="button" class="btn btn-default btn-lg" id="next">Next</button>
+					</div>
+				</div>				
+			</div>			
+		</div>
+	</div> <!-- /container -->
+	<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>  
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script>
+	var prevImage;
+	function getImage() {
+		$.ajax({
+			url: '/api/images/',
+			method: 'GET'
+		}).done(function(data) {
+			var image = data.image;
+			prevImage = $('#image').attr('src');
+			$('#image').attr('src', image);	
+		});		
+	};
+	
+	function setContainerHeight(height) {
+		console.log(height);
+		$('#container').css("height", height + "px");
+	};
+	
+	$('#next').click(function() {
+		getImage();
+	});
+	
+	$('#image').click(function() {
+		getImage();
+	});
+	
+	$(window).on('resize', function(){
+	      var win = $(this); //this = window
+	      setContainerHeight(win.height());
+	});
+	
+	$('html').keyup(function(e) {
+		console.log(e.keyCode);
+		if (e.keyCode == 13 || e.keyCode == 39) {
+			getImage();
+		}
+		
+		if (e.keyCode == 37) {
+			$('#image').attr('src', prevImage);
+		}
+	});
+		
+	getImage();
+	setContainerHeight($(window).height());
+	</script> 
+	</body>
+</html>
