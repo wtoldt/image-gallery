@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,12 @@ public class ImageDao {
 	}
 
 	public Path getImage() {
-		return images.remove(0);
+		final Random random = new Random();
+		final int randomIndex = random.nextInt(images.size());
+		return images.get(randomIndex);
+	}
+
+	public Path getImage(int index) {
+		return images.get(index);
 	}
 }
