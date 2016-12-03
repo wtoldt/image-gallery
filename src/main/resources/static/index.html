@@ -43,7 +43,7 @@
 			url: '/api/images/',
 			method: 'GET'
 		}).done(function(data) {
-			var image = data.image;
+			var image = data.url;
 			prevImage = $('#image').attr('src');
 			$('#image').attr('src', image);	
 		});		
